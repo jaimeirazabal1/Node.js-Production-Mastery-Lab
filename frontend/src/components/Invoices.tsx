@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Product } from './Products';
+import { Container, Select, MenuItem, List, ListItem, ListItemText, Typography, Button, TextField } from '@mui/material';
 
 // Definir tipos de datos
 interface Customer {
@@ -115,51 +116,56 @@ const createInvoice = async () => {
     );
     };
 
-  return (
-    <div>
-      <h2>Facturas</h2>
-      <div>
-        {/* Seleccionar cliente */}
-        <select
-          value={selectedCustomer}
-          onChange={(e) => setSelectedCustomer(Number(e.target.value))}
-        >
-          <option value="">Seleccionar cliente</option>
-          {customers.map((customer) => (
-            <option key={customer.id} value={customer.id}>
-              {customer.name}
-            </option>
-          ))}
-        </select>
-
-        {/* Lista de productos */}
-        <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              {product.name} - ${product.price}
-              <input
-                type="number"
-                placeholder="Cantidad"
-                onChange={(e) =>
-                  handleQuantityChange(product.id, parseInt(e.target.value))
-                }
-              />
-            </li>
-          ))}
-        </ul>
-
-        {/* Botón para crear factura */}
-        <button onClick={createInvoice}>Crear Factura</button>
-      </div>
-
-      {/* Lista de facturas */}
-      <ul>
-        {invoices.map((invoice) => (
-          <li key={invoice.id}>
-            Factura #{invoice.id} - Total: ${invoice.total}
-          </li>
+   return (
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Facturas
+      </Typography>
+      <Select
+        value={selectedCustomer}
+        onChange={(e) => setSelectedCustomer(e.target.value as number)}
+        fullWidth
+        displayEmpty
+      >
+        <MenuItem value="" disabled>
+          Seleccionar cliente
+        </MenuItem>
+        {customers.map((customer) => (
+          <MenuItem key={customer.id} value={customer.id}>
+            {customer.name}
+          </MenuItem>
         ))}
-      </ul>
-    </div>
+      </Select>
+      <List>
+        {products.map((product) => (
+          <ListItem key={product.id}>
+            <ListItemText
+              primary={product.name}
+              secondary={`Precio: $${product.price}`}
+            />
+            <TextField
+              type="number"
+              placeholder="Cantidad"
+              onChange={(e) =>
+                handleQuantityChange(product.id, parseInt(e.target.value))
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
+      <Button variant="contained" color="primary" onClick={createInvoice}>
+        Crear Factura
+      </Button>
+      <List>
+        {invoices.map((invoice) => (
+          <ListItem key={invoice.id}>
+            <ListItemText
+              primary={`Factura #${invoice.id}`}
+              secondary={`Total: $${invoice.total}`}
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Container>
   );
 };

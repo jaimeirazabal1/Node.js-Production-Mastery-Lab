@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Container, TextField, Button, List, ListItem, ListItemText, Typography } from '@mui/material';
 
 interface Customer {
   id: number;
@@ -41,36 +42,44 @@ export const Customers: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Clientes</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Dirección"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Teléfono"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <button onClick={addCustomer}>Agregar Cliente</button>
-      </div>
-      <ul>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Clientes
+      </Typography>
+      <TextField
+        label="Nombre"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Dirección"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Teléfono"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <Button variant="contained" color="primary" onClick={addCustomer}>
+        Agregar Cliente
+      </Button>
+      <List>
         {customers.map((customer) => (
-          <li key={customer.id}>
-            {customer.name} - {customer.address} - {customer.phone}
-          </li>
+          <ListItem key={customer.id}>
+            <ListItemText
+              primary={customer.name}
+              secondary={`Dirección: ${customer.address} - Teléfono: ${customer.phone}`}
+            />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };

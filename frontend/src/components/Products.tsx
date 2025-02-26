@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Container, TextField, Button, List, ListItem, ListItemText, Typography } from '@mui/material';
 
 export interface Product {
   id: number;
@@ -41,36 +42,46 @@ export const Products: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Productos</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Precio"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Stock"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-        />
-        <button onClick={addProduct}>Agregar Producto</button>
-      </div>
-      <ul>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Productos
+      </Typography>
+      <TextField
+        label="Nombre"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Precio"
+        type="number"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Stock"
+        type="number"
+        value={stock}
+        onChange={(e) => setStock(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <Button variant="contained" color="primary" onClick={addProduct}>
+        Agregar Producto
+      </Button>
+      <List>
         {products.map((product) => (
-          <li key={product.id}>
-            {product.name} - ${product.price} - Stock: {product.stock}
-          </li>
+          <ListItem key={product.id}>
+            <ListItemText
+              primary={product.name}
+              secondary={`Precio: $${product.price} - Stock: ${product.stock}`}
+            />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
